@@ -13,7 +13,7 @@
 
     <!--javascript imports-->
     <script src="leaflet.js"></script>
-
+    <script src="../../data/restaurantData.js"></script>
     <script>
 
     /* =====================
@@ -57,7 +57,7 @@
     ===================== */
 
     var map = L.map('map', {
-      center: [39.9522, -75.1639],
+      center: [39.9522, -75.1932],
       zoom: 14
     });
 
@@ -75,9 +75,33 @@
 
     ===================== */
 
-    L.marker([0, 0]).addTo(map);
-    L.marker([0, 0]).addTo(map);
-    L.marker([0, 0]).addTo(map);
+    var addMarkers = function(map) {
+        var hotpotIcon = L.icon({
+            iconUrl: 'images/hotpot.png',
+            iconSize:     [40, 40]
+        });
+        var koreanIcon = L.icon({
+            iconUrl: 'images/korean.png',
+            iconSize: [40,40]
+        })
+        for (i = 0; i < restaurantData.length; i++) {
+            if (restaurantData[i].label == "LaTao Hot Pot") {
+                var marker = L.marker([restaurantData[i].lng,restaurantData[i].lat], {icon: hotpotIcon}).addTo(map);
+            } else if (restaurantData[i].label == "U-Town") {
+                var marker = L.marker([restaurantData[i].lng,restaurantData[i].lat], {icon: koreanIcon}).addTo(map);
+            } else {
+                var marker = L.marker([restaurantData[i].lng,restaurantData[i].lat]).addTo(map);
+          }
+
+          marker.bindPopup("<b>"+restaurantData[i].label+"</b>");
+
+        }
+      };
+
+    addMarkers(map);
+    //L.marker([restaurantData[i].lng,restaurantData[i].lat]).addTo(map);
+    //L.marker([0, 0]).addTo(map);
+    //L.marker([0, 0]).addTo(map);
 
     /* =====================
 

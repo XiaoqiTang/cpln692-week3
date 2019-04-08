@@ -20,7 +20,7 @@
 
     /* =====================
 
-    # Lab 1, Part 3 — Data Transformation
+    # Lab 1, Part 4 — Data Transformation
 
     ## Introduction
 
@@ -37,7 +37,7 @@
     4. number of bike share docks at the station
 
     This data is assigned to variable "data" in the code below. You can view the
-    entire array in the part4-data-clean.js file.
+    entire array in the part3-data-clean.js file.
 
     ## Data Processing
 
@@ -63,13 +63,40 @@
 
     ===================== */
 
-    var data = bikeArrayClean;
+    //var data = bikeArrayClean;
+    var data = bikeArrayDirty;
+    var dataclean = [];
+    for (let i = 0; i<data.length; i++){
+        if (data[i].length == 4){
+            var temp = data[i];
+            temp[0] = Number(data[i][0]);
+            temp[1] = Number(data[i][1]);
+            temp[3] = data[i][3].split(" ");
+            temp[3] = Number(temp[3][0]);
+            dataclean.push(temp);
+        }
+    }
+
+
+
+
 
     /* =====================
 
     Start code to filter data
 
     ===================== */
+    var dataFiltered = []
+    for (let i = 0; i < dataclean.length; i++){
+        if (dataclean[i][3] > 20) {
+            dataFiltered.push(dataclean[i])
+        }
+    };
+
+
+    
+    
+
 
 
 
@@ -97,6 +124,21 @@
     Start code to add markers to map
 
     ===================== */
+    var addMarkers = function(map) {
+        var bikeIcon = L.icon({
+            iconUrl: 'images/bike.png',
+            iconSize:     [30, 30]
+        });
+        for (i = 0; i < dataFiltered.length; i++) {
+            var marker = L.marker([dataFiltered[i][1],dataFiltered[i][0]], {icon: bikeIcon}).addTo(map);
+            marker.bindPopup("<b>"+dataFiltered[i][2]+"</b>");
+
+        }
+    };
+
+    addMarkers(map);
+
+
 
 
 
